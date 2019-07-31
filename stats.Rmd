@@ -1,0 +1,125 @@
+---
+title: "stats"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Jasmine Brown
+Coding in R
+Statistical Analysis
+17 July 2019 
+
+Statistical Analysis
+Now that I have wrangled and cleaned my data it is now time for the statistical analysis. This is the predictive portion of the project. At this time, we are trying to find trends in the project based on the facts and develop a solid hypothesis. In this portion of the coding in R, I have now created multiple plots to now analyze.
+In my dataset the first plot thing I did was to find the differences in mean for the critic score. This counted how many critic score was there for each platform. The platforms are the different types of game consoles. This also gave the means of the critic score for each platform. This showed me that the game with the Highest Mean of the Critic Scores is The Original Nintendo entertainment System (NES). The Nintendo Ds Had the highest number of Games But the second to the lowest critic score. I saw these facts using the differences in means formula for the critic score with the platform. I also used the data to do differences in mean with the platform verses the Total shipped. That data shows that (NES) has the highest mean of the total shipped also but the least number of games.
+The histograms are the next set of plots used to analyze the datasets. The First histogram plot used was the Year verses total shipped. The graph shows that in the year of 2011 that was the highest number of games shipped.
+
+The necessary libraries needed for the project has been installed and are loaded here.
+```{r}
+
+library(tidyverse) #The swiss knife!
+
+library(ggplot2)
+
+library(rmarkdown)
+```
+All of the packages are loaded.  Therefore, we load the data into R and call the data frame dta.
+```{r}
+
+getwd()
+Mydata <- read.csv("vsal.csv")
+
+dataw <- read.csv("dataw.csv")
+
+```
+
+
+
+```{r}
+
+dataw <- select(dataw, -c(X))
+
+```
+
+
+
+Evaluating the output for each code, it is easy to determine that the codes provide almost identical information.  
+
+
+
+
+```{r}
+dta_hist <- ggplot(dataw, aes(Year))
+dta_hist + geom_bar(aes(fill=Total_Shipped), width = 0.6, col="blue") + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  labs(title="Total Shipped determined by years")
+```
+
+
+This filter seems to be a good one.  Now take a deeper dive into the data to determine the year by Total Shipped.  A comparison among year by total shipped will provide pertinent information.  The results will be displayed as a bar graph.In 2011 had the highest number of games shipped. After 2011 after that that year the number of games started to decline ass as whole. We made the Assumptions that after the years of the internet they may be started to be order online rather than being shipped. Looking at the variables total shipped versus platform.
+
+
+
+```{r}
+ggplot(dataw, aes(x = Platform, y = Total_Shipped)) +
+  geom_point() + geom_jitter()
+
+```
+
+On this graph we see that the Wii has a higher total shipped than any other platform. The data set id from the years of 1985 to 2019. That may have a large effect on the platforms with number f games shipped. We could make that assumptions that at that year the stores were popular with that game.
+
+
+
+```{r}
+
+ggplot(dataw, aes(x = Rank, y = Total_Shipped)) +
+  geom_point() 
+
+```
+
+On the graph we can that the higher the rank the more shipped.
+
+
+
+
+
+```{r}
+
+ggplot(dataw, aes(x = Critic_Score, y = Total_Shipped, color="yellow")) + geom_point()
+
+```
+
+he HighesTt total shipped is for a critic score 7.9.
+
+
+
+
+##Statistical Analysis
+
+Determine if there is a difference in means between the total shipped and the critic score for the variables "Score and Std_Score."  These two values are equivalent, but there may be value in examining both.
+
+
+
+
+
+```{r}
+
+
+
+dataw  %>%
+  group_by(Platform) %>%
+  summarise(n_games = n(),
+            mean_shipped = mean(Total_Shipped),
+            std_error = sd(Total_Shipped) / sqrt(n_games))
+
+
+
+```
+
+
+
+
+
